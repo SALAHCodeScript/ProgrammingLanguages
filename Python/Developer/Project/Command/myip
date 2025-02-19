@@ -1,0 +1,18 @@
+#!/usr/bin/python3.13
+import sys
+import os
+
+output = '.out'
+os.system(f"ip a | grep inet > {output}")
+
+content = []
+for line in open(output, "r").readlines():
+	content.append(line.strip().split(" "))
+os.system(f"rm {output}")
+
+ipaddress = [ip[1][:ip[1].find('/')] for ip in content if ip[0] == "inet"]
+display = ipaddress
+if len(sys.argv) > 1:
+    display = ipaddress[int(sys.argv[1])]
+print(display)
+
